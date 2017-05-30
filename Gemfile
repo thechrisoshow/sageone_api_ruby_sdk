@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 gemspec
 
 group :test do
-  gem 'webmock'
   gem 'pry'
   gem 'vcr'
+  gem 'webmock'
 end

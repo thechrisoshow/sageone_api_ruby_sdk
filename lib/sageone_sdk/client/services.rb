@@ -21,8 +21,8 @@ module SageoneSdk
       #                           period_rate_price: 99.99})
       # @param data [hash] The service record information.
       # @param options [hash]
-      def create_service(data, options = {})
-        post "services", service: data
+      def create_service(data, _options = {})
+        post 'services', service: data
       end
 
       # Updates the given service record with the data provided.
@@ -31,14 +31,14 @@ module SageoneSdk
       # @param id [integer] The id of the service record to update.
       # @param data [hash] The service information to update.
       # @param options [hash]
-      def update_service(id, data, options = {})
+      def update_service(id, data, _options = {})
         put "services/#{id}", service: data
       end
 
       # Deletes the given service record.
       # @param id [integer] The id of the service record to delete.
       # @param options [hash]
-      def delete_service(id, options = {})
+      def delete_service(id, _options = {})
         delete "services/#{id}"
       end
     end

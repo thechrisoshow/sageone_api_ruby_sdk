@@ -1,4 +1,4 @@
-require "sageone_sdk"
+require 'sageone_sdk'
 require 'webmock/rspec'
 require 'simplecov'
 require 'vcr'
@@ -11,22 +11,20 @@ VCR.configure do |c|
   c.cassette_library_dir = 'spec/cassettes'
   c.hook_into :webmock
 
-  c.default_cassette_options = {
-    :serialize_with             => :json
-  }
+  c.default_cassette_options = { serialize_with: :json }
 
-  c.filter_sensitive_data("<ACCESS_TOKEN>") do |interaction|
-    "dummy_access_token"
+  c.filter_sensitive_data('<ACCESS_TOKEN>') do
+    'dummy_access_token'
   end
 
-  c.filter_sensitive_data("<SIGNING_SECRET>") do |interaction|
-    "dummy_signing_secret"
+  c.filter_sensitive_data('<SIGNING_SECRET>') do
+    'dummy_signing_secret'
   end
 end
 
 SageoneSdk.configure do |config|
-  config.access_token = "dummy_access_token"
-  config.signing_secret = "dummy_signing_secret"
+  config.access_token = 'dummy_access_token'
+  config.signing_secret = 'dummy_signing_secret'
 end
 
 RSpec.configure do |config|

@@ -1,12 +1,11 @@
 module SageoneSdk
   class Client
-
     # Represents other income transactions for the authenticated user's business.
     module Incomes
-
-      # @return [object] Returns all other income transactions for the authenticated user's business.
+      # @return [object] Returns all other income transactions for the authenticated user's
+      #                  business.
       def incomes(options = {})
-        paginate "incomes", options
+        paginate 'incomes', options
       end
 
       # @return [object] Returns the other income transaction with the given id.
@@ -26,8 +25,8 @@ module SageoneSdk
       #                          "payment_method_id" => 2})
       # @param data [hash] The transaction information.
       # @param options [hash]
-      def create_income(data, options = {})
-        post "incomes", :income => data
+      def create_income(data, _options = {})
+        post 'incomes', income: data
       end
 
       # Updates the given transaction with the data provided.
@@ -36,14 +35,14 @@ module SageoneSdk
       # @param id [integer] The id of the income transaction to update.
       # @param data [hash] The transaction information to update.
       # @param options [hash]
-      def update_income(id, data, options = {})
-        put "incomes/#{id}", :income => data
+      def update_income(id, data, _options = {})
+        put "incomes/#{id}", income: data
       end
 
       # Deletes the given income transaction.
       # @param id [integer] The id of the income transaction to delete.
       # @param options [hash]
-      def delete_income(id, options = {})
+      def delete_income(id, _options = {})
         delete "incomes/#{id}"
       end
     end

@@ -22,9 +22,9 @@ module SageoneSdk
       def create_product(description:, sales_ledger_account_id:, purchase_ledger_account_id:,
                          **options)
         post 'products',
-              product: options.merge(description: description,
-                                     sales_ledger_account_id: sales_ledger_account_id,
-                                     purchase_ledger_account_id: purchase_ledger_account_id)
+             product: options.merge(description: description,
+                                    sales_ledger_account_id: sales_ledger_account_id,
+                                    purchase_ledger_account_id: purchase_ledger_account_id)
       end
 
       # Updates the given product record with the data provided.
@@ -33,14 +33,14 @@ module SageoneSdk
       # @param id [integer] The id of the product record to update.
       # @param data [hash] The product information to update.
       # @param options [hash]
-      def update_product(id, data, options = {})
+      def update_product(id, data, _options = {})
         put "products/#{id}", product: data
       end
 
       # Deletes the given product record.
       # @param id [integer] The id of the product record to delete.
       # @param options [hash]
-      def delete_product(id, options = {})
+      def delete_product(id, _options = {})
         delete "products/#{id}"
       end
     end

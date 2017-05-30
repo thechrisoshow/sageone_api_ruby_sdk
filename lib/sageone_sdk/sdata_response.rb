@@ -33,7 +33,7 @@ module SageoneSdk
 
     # Respond to missing?
     # @return Boolean
-    def respond_to_missing?(method, include_private =  false)
+    def respond_to_missing?(method, include_private = false)
       @data.respond_to?(method, include_private)
     end
 
@@ -50,7 +50,7 @@ module SageoneSdk
 
     # Remove $ from json keys and underscore methods for ruby-likeness
     def format_keys(hash)
-      hash.keys.each { |k| hash[ k.gsub('$', '').underscore ] = hash.delete(k) }
+      hash.keys.each { |k| hash[k.delete('$').underscore] = hash.delete(k) }
       hash
     end
   end

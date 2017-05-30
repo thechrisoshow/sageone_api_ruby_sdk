@@ -30,7 +30,7 @@ module SageoneSdk
       # @param data [hash] The contact record information.
       # @param options [hash]
       def create_contact(name:, type:, **options)
-        post 'contacts', contact: options.merge({ name: name, contact_type_ids: [type] })
+        post 'contacts', contact: options.merge(name: name, contact_type_ids: [type])
       end
 
       # Creates a customer record with the data provided.

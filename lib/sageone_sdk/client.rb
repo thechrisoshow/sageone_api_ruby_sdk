@@ -1,42 +1,42 @@
-require "sawyer"
-require "faraday_middleware"
-require "sageone_sdk/authentication"
-require "sageone_sdk/middleware"
-require "sageone_sdk/version"
-require "sageone_sdk/client/account_types"
-require "sageone_sdk/client/bank_accounts"
-require "sageone_sdk/client/coa_accounts"
-require "sageone_sdk/client/contacts"
-require "sageone_sdk/client/expenditures"
-require "sageone_sdk/client/expense_methods"
-require "sageone_sdk/client/expense_types"
-require "sageone_sdk/client/financial_settings"
-require "sageone_sdk/client/income_methods"
-require "sageone_sdk/client/income_types"
-require "sageone_sdk/client/incomes"
-require "sageone_sdk/client/journals"
-require "sageone_sdk/client/ledger_account_types"
-require "sageone_sdk/client/ledger_accounts"
-require "sageone_sdk/client/payment_statuses"
-require "sageone_sdk/client/period_types"
-require "sageone_sdk/client/purchase_invoices"
-require "sageone_sdk/client/products"
-require "sageone_sdk/client/sales_estimates"
-require "sageone_sdk/client/sales_invoices"
-require "sageone_sdk/client/services"
-require "sageone_sdk/client/tax_rates"
-require "sageone_sdk/client/transactions"
+require 'sawyer'
+require 'faraday_middleware'
+require 'sageone_sdk/authentication'
+require 'sageone_sdk/middleware'
+require 'sageone_sdk/version'
+require 'sageone_sdk/client/account_types'
+require 'sageone_sdk/client/bank_accounts'
+require 'sageone_sdk/client/coa_accounts'
+require 'sageone_sdk/client/contacts'
+require 'sageone_sdk/client/expenditures'
+require 'sageone_sdk/client/expense_methods'
+require 'sageone_sdk/client/expense_types'
+require 'sageone_sdk/client/financial_settings'
+require 'sageone_sdk/client/income_methods'
+require 'sageone_sdk/client/income_types'
+require 'sageone_sdk/client/incomes'
+require 'sageone_sdk/client/journals'
+require 'sageone_sdk/client/ledger_account_types'
+require 'sageone_sdk/client/ledger_accounts'
+require 'sageone_sdk/client/payment_statuses'
+require 'sageone_sdk/client/period_types'
+require 'sageone_sdk/client/purchase_invoices'
+require 'sageone_sdk/client/products'
+require 'sageone_sdk/client/sales_estimates'
+require 'sageone_sdk/client/sales_invoices'
+require 'sageone_sdk/client/services'
+require 'sageone_sdk/client/tax_rates'
+require 'sageone_sdk/client/transactions'
 
 module SageoneSdk
   class Client
     API_ENDPOINTS = {
-      'ca' => "https://api.columbus.sage.com/ca/sageone",
-      'de' => "https://api.columbus.sage.com/de/sageone",
-      'es' => "https://api.columbus.sage.com/fr/sageone",
-      'fr' => "https://api.columbus.sage.com/fr/sageone",
-      'ie' => "https://api.columbus.sage.com/uki/sageone",
-      'uk' => "https://api.columbus.sage.com/uki/sageone",
-      'us' => "https://api.columbus.sage.com/us/sageone"
+      'ca' => 'https://api.columbus.sage.com/ca/sageone',
+      'de' => 'https://api.columbus.sage.com/de/sageone',
+      'es' => 'https://api.columbus.sage.com/fr/sageone',
+      'fr' => 'https://api.columbus.sage.com/fr/sageone',
+      'ie' => 'https://api.columbus.sage.com/uki/sageone',
+      'uk' => 'https://api.columbus.sage.com/uki/sageone',
+      'us' => 'https://api.columbus.sage.com/us/sageone'
     }.freeze
 
     USER_AGENT = "sageone_sdk Ruby Gem #{SageoneSdk::VERSION}".freeze
@@ -88,21 +88,21 @@ module SageoneSdk
     # Post Request
     # @param [String] path the request path
     # @param [Hash] data the request data
-    def post(path, data={})
+    def post(path, data = {})
       request(:post, path, data.to_json)
     end
 
     # Put Request
     # @param [String] path the request path
     # @param [Hash] data the request data
-    def put(path, data={})
+    def put(path, data = {})
       request(:put, path, data.to_json)
     end
 
     # Delete Request
     # @param [String] path the request path
     # @param [Hash] data the request data
-    def delete(path, data={})
+    def delete(path, data = {})
       request(:delete, path, data)
     end
 
@@ -112,7 +112,7 @@ module SageoneSdk
     # @param [Hash] data the request data
     # @param [Hash] options Options for the request
     def request(method, path, data, options = {})
-      path = File.join("accounts", "v3", path)
+      path = File.join('accounts', 'v3', path)
       @last_response = response = agent.public_send(
         method, URI::Parser.new.escape(path.to_s), data, options
       )

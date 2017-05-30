@@ -10,7 +10,7 @@ module SageoneSdk
     # Full Messages
     def full_messages
       diagnoses.map do |x|
-        "#{x["$source"].humanize}: #{x["$message"]}"
+        "#{x['$source'].humanize}: #{x['$message']}"
       end
     end
 
@@ -27,6 +27,12 @@ module SageoneSdk
       else
         super
       end
+    end
+
+    # Respond to missing?
+    # @return Boolean
+    def respond_to_missing?(method, include_private = false)
+      diagnoses.respond_to?(method, include_private)
     end
   end
 end

@@ -1,12 +1,10 @@
 module SageoneSdk
   class Client
-
     # Represents ledger accounts for the authenticated user's business.
     module LedgerAccounts
-
       # @return [object] Returns all ledger accounts for the authenticated user's business.
       def ledger_accounts(options = {})
-        get "ledger_accounts", options
+        get 'ledger_accounts', options
       end
 
       # @return [object] Returns the ledger account with the given id.
@@ -21,7 +19,7 @@ module SageoneSdk
       # @example Get balances for January 2015
       #   @client.ledger_account_balances({'from_date' => '2015-01-01', 'to_date' => '2015-01-31'})
       def ledger_account_balances(options = {})
-        get "ledger_accounts/balances", options
+        get 'ledger_accounts/balances', options
       end
 
       # @return [object] Returns the given ledger account and its balance for the given date range.
@@ -30,7 +28,7 @@ module SageoneSdk
       # @option options [date] from_date The transaction from date.
       # @option options [date] to_date The transaction to date.
       # @example Get balances for ledger account id 1233 for January 2015
-      #   @client.ledger_account_balances(1233, {'from_date' => '2015-01-01', 'to_date' => '2015-01-31'})
+      #   @client.ledger_account_balances(1233, from_date: '2015-01-01', to_date: '2015-01-31')
       def ledger_account_balance(id, options = {})
         get "ledger_accounts/#{id}/balance", options
       end
@@ -44,8 +42,8 @@ module SageoneSdk
       #                                  category_id: 1})
       # @param data [hash] The ledger account information.
       # @param options [hash]
-      def create_ledger_account(data, options = {})
-        post "ledger_accounts", :ledger_account => data
+      def create_ledger_account(data, _options = {})
+        post 'ledger_accounts', ledger_account: data
       end
     end
   end

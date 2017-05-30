@@ -31,7 +31,7 @@ module SageoneSdk
     # Generate the request params from the request query and body params
     def request_params
       params = get_params_hash(@url.query)
-      params.merge!('body' => percent_encode(Base64.strict_encode64(@request_body)))
+      params['body'] = percent_encode(Base64.strict_encode64(@request_body))
       params.sort.map { |key, value| "#{key}=#{value}" }.join('&')
     end
 
@@ -64,7 +64,7 @@ module SageoneSdk
     def get_params_hash(params)
       params_hash = {}
 
-      if !params.nil? and !params.empty?
+      if !params.nil? && !params.empty?
         params = percent_decode(params)
         params.split('&').each do |param|
           param_pair = param.split('=')
@@ -79,11 +79,11 @@ module SageoneSdk
     def percent_encode(str)
       # Replaced deprecated URI.escape with CGI.escape
       # CGI.escape replaces spaces with "+", so we also need to substitute them with "%20"
-      CGI.escape(str).gsub("+", "%20")
+      CGI.escape(str).gsub('+', '%20')
     end
 
     def percent_decode(str)
-      CGI.unescape(str).gsub("%20", "+")
+      CGI.unescape(str).gsub('%20', '+')
     end
   end
 end

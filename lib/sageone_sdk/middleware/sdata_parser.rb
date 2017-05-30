@@ -1,8 +1,8 @@
 require 'sageone_sdk/signature'
 require 'sageone_sdk/sdata_error_response'
 require 'sageone_sdk/sdata_response'
-require "json"
-require "hashie/mash"
+require 'json'
+require 'hashie/mash'
 
 module SageoneSdk
   module Middleware
@@ -12,15 +12,15 @@ module SageoneSdk
       def call(environment)
         @app.call(environment).on_complete do |env|
           element = ::JSON.parse(env[:body]) unless env[:body].strip.blank?
-          if element.respond_to?(:each_pair)
-            env[:body] = if env.success?
+          env[:body] = if element.respond_to?(:each_pair)
+                         if env.success?
                            SageoneSdk::SDataResponse.new(element)
                          else
                            SageoneSdk::SDataErrorResponse.new(element)
                          end
-          else
-            env[:body] = element.map { |x| Hashie::Mash.new(x) }
-          end
+                       else
+                         element.map { |x| Hashie::Mash.new(x) }
+                       end
         end
       end
     end

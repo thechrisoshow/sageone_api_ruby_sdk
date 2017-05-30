@@ -1,9 +1,7 @@
 module SageoneSdk
   class Client
-
     # Represents the sales estimates for the authenticated user's business.
     module SalesEstimates
-
       # @return [object] Returns all sales estimates for the authenticated user's business.
       def sales_estimates(options = {})
         get 'sales_estimates', options
@@ -27,14 +25,14 @@ module SageoneSdk
       # @param options [hash]
       def create_sales_estimate(contact_id:, date:, expiry_date:, shipping_net_amount:,
                                 estimate_lines: [], **options)
-        post "sales_estimates",
+        post 'sales_estimates',
              sales_estimate: options.merge(
-              contact_id: contact_id,
-              date: date,
-              expiry_date: expiry_date,
-              shipping_net_amount: shipping_net_amount,
-              estimate_lines: estimate_lines
-            )
+               contact_id: contact_id,
+               date: date,
+               expiry_date: expiry_date,
+               shipping_net_amount: shipping_net_amount,
+               estimate_lines: estimate_lines
+             )
       end
 
       # Updates the given sales estimate with the data provided.
@@ -43,14 +41,14 @@ module SageoneSdk
       # @param id [integer] The id of the sales estimate to update.
       # @param data [hash] The sales estimate information to update.
       # @param options [hash]
-      def update_sales_estimate(id, data, options = {})
+      def update_sales_estimate(id, data, _options = {})
         put "sales_estimates/#{id}", sales_estimate: data
       end
 
       # Deletes the sales estimate with the given id.
       # @param id [integer] The id of the sales estimate to delete.
       # @param options [hash]
-      def delete_sales_estimate(id, options = {})
+      def delete_sales_estimate(id, _options = {})
         delete "sales_estimates/#{id}"
       end
     end

@@ -5,10 +5,10 @@ describe SageoneSdk::Client::Transactions do
     SageoneSdk.reset!
   end
 
-  let(:client) { SageoneSdk::Client.new({access_token: "foo", signing_secret: "bar"}) }
+  let(:client) { SageoneSdk::Client.new(access_token: 'foo', signing_secret: 'bar') }
 
-  describe "transactions", :vcr do
-    it "returns all transactions" do
+  describe 'transactions', :vcr do
+    it 'returns all transactions' do
       transactions = client.transactions
       expect(transactions.first.total).not_to be_nil
     end
