@@ -1,30 +1,12 @@
+require 'hashie/mash'
+
 module SageoneSdk
   # SData response
   class SDataResponse
     attr_reader :data
 
     def initialize(data = {})
-      @data = data
-    end
-
-    # Total Results
-    def total_results
-      @data["$totalResults"]
-    end
-
-    # Starting Index
-    def start_index
-      @data["startIndex"]
-    end
-
-    # Items Per Page
-    def items_per_page
-      @data["$itemsPerPage"]
-    end
-
-    # Resources
-    def resources
-      @data["$resources"]
+      @data = Hashie::Mash.new format_keys(data)
     end
 
     # Error?
@@ -52,18 +34,24 @@ module SageoneSdk
     # Respond to missing?
     # @return Boolean
     def respond_to_missing?(method, include_private =  false)
-      resources.respond_to?(method, include_private) || data.respond_to?(method, include_private)
+      @data.respond_to?(method, include_private)
     end
 
     # Handle method missing
     def method_missing(method, *args, &block)
-      if resources.respond_to?(method)
-        resources.send(method, *args)
-      elsif data.respond_to?(method)
-        data.send(method, *args)
+      if @data.respond_to?(method)
+        @data.send(method, *args)
       else
         super
       end
+    end
+
+    private
+
+    # Remove $ from json keys and underscore methods for ruby-likeness
+    def format_keys(hash)
+      hash.keys.each { |k| hash[ k.gsub('$', '').underscore ] = hash.delete(k) }
+      hash
     end
   end
 end

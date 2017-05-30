@@ -11,15 +11,13 @@ module SageoneSdk
       # Call
       def call(environment)
         @app.call(environment).on_complete do |env|
-          element = ::JSON.parse(env[:body])
-
+          element = ::JSON.parse(env[:body]) unless env[:body].strip.blank?
           if element.respond_to?(:each_pair)
-            response_body = Hashie::Mash.new(element)
-            if env.success?
-              env[:body] = SageoneSdk::SDataResponse.new(response_body)
-            else
-              env[:body] = SageoneSdk::SDataErrorResponse.new(response_body)
-            end
+            env[:body] = if env.success?
+                           SageoneSdk::SDataResponse.new(element)
+                         else
+                           SageoneSdk::SDataErrorResponse.new(element)
+                         end
           else
             env[:body] = element.map { |x| Hashie::Mash.new(x) }
           end

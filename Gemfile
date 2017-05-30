@@ -4,9 +4,7 @@ source 'https://rubygems.org'
 gemspec
 
 group :test do
-  gem "guard-rspec", require: false
   gem 'webmock'
   gem 'pry'
-  gem 'simplecov'
   gem 'vcr'
 end

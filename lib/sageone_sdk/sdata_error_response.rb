@@ -1,15 +1,10 @@
 module SageoneSdk
   # SData error response
-  class SDataErrorResponse
+  class SDataErrorResponse < SDataResponse
     attr_reader :data
 
     def initialize(data = {})
-      @data = data
-    end
-
-    # Diagnoses
-    def diagnoses
-      @data["$diagnoses"]
+      super(data)
     end
 
     # Full Messages
@@ -23,12 +18,6 @@ module SageoneSdk
     # @return Boolean
     def error?
       true
-    end
-
-    # Respond to missing?
-    # @return Boolean
-    def respond_to_missing?(method, include_private =  false)
-      resources.respond_to?(method, include_private)
     end
 
     # Handle method missing

@@ -1,6 +1,7 @@
 require 'base64'
 require 'openssl'
 require 'cgi'
+require 'securerandom'
 
 module SageoneSdk
   # Signature
@@ -8,81 +9,53 @@ module SageoneSdk
     attr_reader :http_method, :nonce
 
     # Constructor
-    def initialize(http_method, url, request_body, nonce, secret, token)
+    def initialize(http_method, url, request_body, secret, token, business_guid)
       @http_method = http_method.to_s.upcase
       @url = URI(url)
       @request_body = request_body.to_s
-      @nonce = nonce
       @secret = secret
       @token = token
-    end
-
-    # Generate Nonce
-    def self.generate_nonce
-      SecureRandom.hex
+      @business_guid = business_guid
     end
 
     # Set the base URL
     def base_url
-      base_array = []
-      base_array << @url.scheme
-      base_array << "://"
-      base_array << @url.host
-      base_array << ":#{@url.port}" if @url.port != @url.default_port
-      base_array << @url.path
-
-      base_array.join
+      @url.to_s.split('?').first
     end
 
-    # Request query params
-    def query_params
-      get_params_hash(@url.query)
-    end
-
-    # Request body params
-    def body_params
-      get_params_hash(@request_body)
+    # Generate Nonce
+    def nonce
+      @nonce ||= SecureRandom.hex
     end
 
     # Generate the request params from the request query and body params
     def request_params
-      request_hash = query_params.merge(body_params).sort
-      request_array = []
-
-      request_hash.each do |key, value|
-        request_array << "#{key}=#{value}"
-      end
-
-      request_array.join('&')
+      params = get_params_hash(@url.query)
+      params.merge!('body' => percent_encode(Base64.strict_encode64(@request_body)))
+      params.sort.map { |key, value| "#{key}=#{value}" }.join('&')
     end
 
     # Generate the base signature string
     def signature_base_string
-      s = @http_method.dup
-      s << '&'
-      s << percent_encode(base_url)
-      s << '&'
-      s << percent_encode(request_params.to_s)
-      s << '&'
-      s << percent_encode(nonce.to_s)
-
-      s
+      [
+        @http_method.dup,
+        percent_encode(base_url),
+        percent_encode(request_params),
+        percent_encode(nonce.to_s),
+        percent_encode(@business_guid)
+      ].join('&')
     end
 
     # Generate the signing key
     def signing_key
-      s = percent_encode(@secret)
-      s << '&'
-      s << percent_encode(@token)
-
-      s
+      [percent_encode(@secret), percent_encode(@token)].join('&')
     end
 
     # Generates the signature
     def to_s
-      s = Base64.encode64(OpenSSL::HMAC.digest(OpenSSL::Digest.new('sha1'), signing_key, signature_base_string))
-
-      s
+      Base64.encode64(
+        OpenSSL::HMAC.digest(OpenSSL::Digest.new('sha1'), signing_key, signature_base_string)
+      )
     end
 
     private

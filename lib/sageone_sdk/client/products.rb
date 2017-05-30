@@ -1,12 +1,10 @@
 module SageoneSdk
   class Client
-
     # Represents the products for the authenticated user's business.
     module Products
-
       # @return [object] Returns all products for the authenticated user's business.
       def products(options = {})
-        paginate "products", options
+        get 'products', options
       end
 
       # @return [object] Returns the product with the given id.
@@ -16,17 +14,17 @@ module SageoneSdk
 
       # Creates a product record with the data provided.
       # @example Create a new product record
-      #   @client.create_product({description: "My new product",
-      #                           sales_price_includes_tax: false,
-      #                           ledger_account_id: 438,
-      #                           tax_code_id: 1,
-      #                           product_code: "PROD001",
-      #                           last_cost_price: 41.5,
-      #                           sales_price: 99.99})
+      #   @client.create_product(description: "My new product",
+      #                          sales_ledger_account_id: 123
+      #                          purchase_ledger_account_id: 456)
       # @param data [hash] The product record information.
       # @param options [hash]
-      def create_product(data, options = {})
-        post "products", :product => data
+      def create_product(description:, sales_ledger_account_id:, purchase_ledger_account_id:,
+                         **options)
+        post 'products',
+              product: options.merge(description: description,
+                                     sales_ledger_account_id: sales_ledger_account_id,
+                                     purchase_ledger_account_id: purchase_ledger_account_id)
       end
 
       # Updates the given product record with the data provided.
@@ -36,7 +34,7 @@ module SageoneSdk
       # @param data [hash] The product information to update.
       # @param options [hash]
       def update_product(id, data, options = {})
-        put "products/#{id}", :product => data
+        put "products/#{id}", product: data
       end
 
       # Deletes the given product record.

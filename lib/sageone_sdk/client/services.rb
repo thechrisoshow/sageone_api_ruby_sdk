@@ -1,12 +1,10 @@
 module SageoneSdk
   class Client
-
     # Represents the services for the authenticated user's business.
     module Services
-
       # @return [object] Returns all services for the authenticated user's business.
       def services(options = {})
-        paginate "services", options
+        get 'services', options
       end
 
       # @return [object] Returns the service record with the given id.
@@ -24,7 +22,7 @@ module SageoneSdk
       # @param data [hash] The service record information.
       # @param options [hash]
       def create_service(data, options = {})
-        post "services", :service => data
+        post "services", service: data
       end
 
       # Updates the given service record with the data provided.
@@ -34,7 +32,7 @@ module SageoneSdk
       # @param data [hash] The service information to update.
       # @param options [hash]
       def update_service(id, data, options = {})
-        put "services/#{id}", :service => data
+        put "services/#{id}", service: data
       end
 
       # Deletes the given service record.

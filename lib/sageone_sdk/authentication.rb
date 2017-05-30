@@ -1,10 +1,6 @@
 module SageoneSdk
   # Authentication
   module Authentication
-    # Checks if access token is nil
-    def token_authenticated?
-      !!@access_token
-    end
     # Forms the authorization_uri using the client's attributes
     def authorization_url
       "https://www.sageone.com/oauth2/auth?"\
