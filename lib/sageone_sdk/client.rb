@@ -140,8 +140,9 @@ module SageoneSdk
           @options[:resource_owner_id]
         )
 
-        builder.adapter Faraday.default_adapter
         builder.use SageoneSdk::Middleware::SDataParser
+
+        builder.adapter Faraday.default_adapter
       end
     end
 
