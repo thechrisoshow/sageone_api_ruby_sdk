@@ -6,7 +6,7 @@ module SageoneSdk
       'https://www.sageone.com/oauth2/auth?'\
       'response_type=code&'\
       "client_id=#{@client_id}&"\
-      "redirect_uri=#{redirect_uri}&"\
+      "redirect_uri=#{@redirect_uri}&"\
       'scope=full_access'
     end
 
